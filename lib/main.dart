@@ -733,7 +733,7 @@ class _ChatHomePageState extends State<ChatHomePage> with TickerProviderStateMix
         }
       } catch (_) {}
     }
-    return cleaned.replaceAll(RegExp(r'^["\']|["\']$'), '').trim();
+    return cleaned.replaceAll(RegExp(r'''^["']|["']$'''), '').trim();
   }
 
   Future<void> _ensureChatTitle(String sourceText) async {
