@@ -274,16 +274,6 @@ fun CalculatorButton(
     }
 }
 
-@Composable
-fun updateDisplayText(
-    currentText: String,
-    isNewNumber: Boolean,
-    onTextChange: (String) -> Unit
-) {
-    val displayText = if (isNewNumber && currentText != "0") currentText else ""
-    onTextChange(displayText)
-}
-
 private fun calculateResult() {
     if (firstNumber != null && operation != null && secondNumber != null) {
         val result = when (operation) {
