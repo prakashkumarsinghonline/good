@@ -36,9 +36,6 @@ fun EmojiRace() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                MaterialTheme.colorScheme.primary
-            )
     ) {
         // Start line
         Column(
@@ -58,10 +55,7 @@ fun EmojiRace() {
                 text = "GO!",
                 fontSize = 48.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.White,
-                modifier = Modifier.animateEnterExit(
-                    animationSpec = fadeIn(tween(300)) + scaleIn(tween(300))
-                )
+                color = Color.White
             )
         }
 
@@ -94,7 +88,7 @@ fun EmojiRace() {
                 text = "🏆 FINISH LINE 🏆",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 alpha = 0f
             )
         }
@@ -135,11 +129,6 @@ fun RacingEmoji(
         animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)
     )
 
-    val rotation by animateFloatAsState(
-        targetValue = if (isRaceActive) 360f else 0f,
-        animationSpec = tween(durationMillis = 3000 + (startOffset.value * 1000).toInt())
-    )
-
     val alpha by animateFloatAsState(
         targetValue = if (isRaceActive) 1f else 0.3f,
         animationSpec = tween(durationMillis = 1000)
@@ -155,16 +144,12 @@ fun RacingEmoji(
         modifier = Modifier
             .fillMaxWidth()
             .offset(x = startOffset.value.dp)
-            .graphicsLayer {
-                rotationZ = rotation
-                alpha = alpha
-            }
     ) {
         Text(
             text = emoji,
             fontSize = 48.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
