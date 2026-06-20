@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Prakash", style = MaterialTheme.typography.headlineSmall)
+                        Text("Hello World!", style = MaterialTheme.typography.headlineSmall)
                     }
                 }
             }
