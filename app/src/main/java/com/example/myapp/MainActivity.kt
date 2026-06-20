@@ -4,20 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 @Composable
 fun EmojiRace() {
@@ -41,13 +37,7 @@ fun EmojiRace() {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.secondary,
-                        MaterialTheme.colorScheme.tertiary
-                    )
-                )
+                MaterialTheme.colorScheme.primary
             )
     ) {
         // Start line
@@ -61,15 +51,17 @@ fun EmojiRace() {
                 text = "🏁 START LINE 🏁",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.white,
+                color = Color.White,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             Text(
                 text = "GO!",
                 fontSize = 48.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.white,
-                animation = fadeIn(tween(300)) + scaleIn(tween(300))
+                color = Color.White,
+                modifier = Modifier.animateEnterExit(
+                    animationSpec = fadeIn(tween(300)) + scaleIn(tween(300))
+                )
             )
         }
 
@@ -102,7 +94,7 @@ fun EmojiRace() {
                 text = "🏆 FINISH LINE 🏆",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.white,
+                color = Color.White,
                 alpha = 0f
             )
         }
@@ -148,11 +140,6 @@ fun RacingEmoji(
         animationSpec = tween(durationMillis = 3000 + (startOffset.value * 1000).toInt())
     )
 
-    val offset by animateFloatAsState(
-        targetValue = if (isRaceActive) 400f else 0f,
-        animationSpec = tween(durationMillis = 3000 + (startOffset.value * 1000).toInt())
-    )
-
     val alpha by animateFloatAsState(
         targetValue = if (isRaceActive) 1f else 0.3f,
         animationSpec = tween(durationMillis = 1000)
@@ -167,8 +154,7 @@ fun RacingEmoji(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .offset(x = startOffset.value)
-            .scale(scale)
+            .offset(x = startOffset.value.dp)
             .graphicsLayer {
                 rotationZ = rotation
                 alpha = alpha
@@ -178,7 +164,7 @@ fun RacingEmoji(
             text = emoji,
             fontSize = 48.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.white
+            color = Color.White
         )
     }
 }
