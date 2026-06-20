@@ -1,0 +1,29 @@
+name: AhamAI Build
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Build debug APK
+        run: |
+          if [ ! -f ./gradlew ] || [ ! -f ./gradle/wrapper/gradle-wrapper.jar ]; then
+            echo "Gradle wrapper missing - generating it"
+            gradle wrapper --gradle-version 8.7 --no-daemon
+          fi
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-apk
+          path: '**/build/outputs/apk/**/*.apk'
+          if-no-files-found: error
